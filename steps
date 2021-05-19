@@ -1,0 +1,32 @@
+1、Purchase your personal VPS(CENTOS 7 X64 with python 2.7)
+
+2、install pip
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
+python get-pip.py
+
+3、install shadowsocks
+pip install shadowsocks
+
+4、vi /etc/shadowsocks.json
+{
+    "server":"0.0.0.0",
+    "server_port":8388, // firewall-cmd --zone=public --add-port=8388/tcp --permanent
+    "local_port":1080,
+    "password":"1234567890",
+    "timeout":600,
+    "method":"aes-256-gcm" //if gcm, need to pip install https://github.com/shadowsocks/shadowsocks/archive/master.zip -U
+}
+
+5、vi /etc/systemd/system/shadowsocks.service
+[Unit]
+Description=Shadowsocks
+[Service]
+TimeoutStartSec=0
+ExecStart=/usr/bin/ssserver -c /etc/shadowsocks.json
+[Install]
+WantedBy=multi-user.target
+
+6、systemctl enable shadowsocks && systemctl start shadowsocks
+
+7、config Shadowsocks(windows)
+
